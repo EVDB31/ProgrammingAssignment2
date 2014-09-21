@@ -13,7 +13,7 @@ makeCacheMatrix <- function(x = matrix()) {
     m <<- NULL
   }
   get <- function() x
-  setinverse <- function(solve) m <<- inverse
+  setinverse <- function(solve) m <<- solve
   getinverse <- function() m
   list(set = set, get = get,
        setinverse = setinverse,
@@ -27,7 +27,7 @@ makeCacheMatrix <- function(x = matrix()) {
 ##value of the inverse in the cache via the  setinverse  function.
 cacheSolve <- function(x, ...) {
   ## Return a matrix that is the inverse of 'x'
-  m <- x
+  m <- x$getinverse()
   if(!is.null(m)) {
     message("getting cached data")
     return(m)
@@ -35,6 +35,7 @@ cacheSolve <- function(x, ...) {
   data <- x$get()
   m <- solve(data, ...)
   x$setinverse(m)
-  m
+ 
+ m
   
 }
